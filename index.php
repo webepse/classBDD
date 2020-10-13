@@ -14,14 +14,16 @@
     <title>Document</title>
 </head>
 <body>
-    <?php foreach($db->myQuery('SELECT * FROM posts') as $post) :  ?>
-
-        <div><?= $post->title ?></div>
+    <?php foreach($db->myQuery('SELECT * FROM posts','Article') as $post) :  ?>
+        <div>
+            <h2><a href="<?= $post->getURL() ?>"><?= $post->title ?></a></h2>
+            <div><?= $post->getExtrait() ?></div>
+        </div>
 
     <?php endforeach; ?>
 
     <?php 
-        var_dump($db->myQuery('SELECT * FROM posts'));
+        var_dump($db->myQuery('SELECT * FROM posts','Article'));
     
     ?>
 </body>

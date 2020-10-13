@@ -32,9 +32,9 @@
             return $this->bdd;
         }
 
-        public function myQuery($statement){
+        public function myQuery($statement,$className){
             $req = $this->getBDD()->query($statement);
-            $datas = $req->fetchAll(PDO::FETCH_OBJ);
+            $datas = $req->fetchAll(PDO::FETCH_CLASS,__NAMESPACE__.'\\'.$className);
             $req->closeCursor();
             return $datas;
         }
