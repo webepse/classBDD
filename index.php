@@ -5,6 +5,24 @@
 
     $db = new Database('blog2');
 
+    if(isset($_GET['action']))
+    {
+        if($_GET['action']=="addpost"){
+            if(isset($_POST['title']) && !empty($_POST['title'])){
+                if(isset($_POST['content']) && !empty($_POST['content']))
+                {
+                    $title = htmlspecialchars($_POST['title']);
+                    $content = htmlspecialchars($_POST['content']);
+                    $db->addPost($title,$content);
+                }else{
+                    header("LOCATION:ajouter.php?err=2");
+                } 
+            }else{
+                header("LOCATION:ajouter.php?err=1");
+            }
+        }
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,5 +44,6 @@
         var_dump($db->myQuery('SELECT * FROM posts','Article'));
     
     ?>
+    <div><a href="ajouter.php">Ajouter un article</a></div>
 </body>
 </html>
