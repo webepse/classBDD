@@ -4,7 +4,7 @@
     class Article{
 
         public function getURL(){
-            return 'article.php?id='.$this->id;
+            return 'index.php?action=article&id='.$this->id;
         }
 
         public function getExtrait(){

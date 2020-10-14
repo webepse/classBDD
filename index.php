@@ -7,6 +7,7 @@
 
     if(isset($_GET['action']))
     {
+
         if($_GET['action']=="addpost"){
             if(isset($_POST['title']) && !empty($_POST['title'])){
                 if(isset($_POST['content']) && !empty($_POST['content']))
@@ -14,13 +15,30 @@
                     $title = htmlspecialchars($_POST['title']);
                     $content = htmlspecialchars($_POST['content']);
                     $db->addPost($title,$content);
+                    header("LOCATION:index.php");
                 }else{
-                    header("LOCATION:ajouter.php?err=2");
+                    header("LOCATION:index.php?action=ajouter&err=2");
                 } 
             }else{
-                header("LOCATION:ajouter.php?err=1");
+                header("LOCATION:index.php?action=ajouter&err=1");
             }
+        }elseif($_GET['action']=="home"){
+            $menu="template/home.php";
+        }elseif($_GET['action']=="article"){
+            if(isset($_GET['id'])){
+                $menu="template/article.php";
+            }else{
+                $menu="template/404.php";
+            }
+        }elseif($_GET['action']=="ajouter"){
+            $menu="template/ajouter.php";
+        }else{
+            $menu="template/404.php";
         }
+
+
+    }else{
+        $menu="template/home.php";
     }
 
 ?>
@@ -32,18 +50,12 @@
     <title>Document</title>
 </head>
 <body>
-    <?php foreach($db->myQuery('SELECT * FROM posts','Article') as $post) :  ?>
-        <div>
-            <h2><a href="<?= $post->getURL() ?>"><?= $post->title ?></a></h2>
-            <div><?= $post->getExtrait() ?></div>
-        </div>
+   <?php
+        include("template/header.php");
+        
+        include($menu);
 
-    <?php endforeach; ?>
-
-    <?php 
-        var_dump($db->myQuery('SELECT * FROM posts','Article'));
-    
-    ?>
-    <div><a href="ajouter.php">Ajouter un article</a></div>
+        include("template/footer.php");
+   ?>
 </body>
 </html>
