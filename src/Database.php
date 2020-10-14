@@ -34,12 +34,25 @@
 
         public function myQuery($statement,$className){
             $req = $this->getBDD()->query($statement);
+            // 'App\\'.$className
             $datas = $req->fetchAll(PDO::FETCH_CLASS,__NAMESPACE__.'\\'.$className);
             $req->closeCursor();
             return $datas;
         }
 
-
+        public function myPrepare($statement,$values,$className,$one = false)
+        {
+            $req = $this->getBDD()->prepare($statement);
+            $req->execute($values);
+            $req->setFetchMode(PDO::FETCH_CLASS,__NAMESPACE__.'\\'.$className);
+            if($one){
+                $datas = $req->fetch();
+            } else {
+                $datas = $req->fetchAll();
+            }
+            $req->closeCursor();
+            return $datas;
+        }
     }
 
 ?>
